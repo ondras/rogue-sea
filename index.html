@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="https://emojimage.toad.cz/🏴‍☠" />
+        <link href="index.css" rel="stylesheet" />
+        <title>Rogue Sea &ndash; a 7-day Roguelike</title>
+    </head>
+    <body>
+        <div id="about">
+            <h1>Rogue Sea</h1>
+            <pre>
+              |    |    |
+             <b class="sail">)_)</b>  <b class="sail">)_)</b>  <b class="sail">)_)</b>
+            <b class="sail">)___))___))___)\</b>
+           <b class="sail">)____)____)_____)\\</b>
+         _____|____|____|____<b class="sail">\\\</b>__
+<b class="sea">---------</b>\                   /<b class="sea">---------</b>
+<b class="sea">  ^^^^^ ^^^^^^^^^^^^^^^^^^^^^
+    ^^^^      ^^^^     ^^^    ^^
+         ^^^^      ^^^</b>
+            </pre>
+
+            <p>Welcome! This is a 7-day roguelike game, created in a hurry during a pandemic lockdown. Just a few experimental ideas (square bitmaps, spatial audio) stitched together with late-night coding and gruesome coffee amounts. To fully enjoy this experiment, please <strong>use a keyboard</strong> and <strong>turn the sound on</strong>.</p>
+
+            <section>
+                <p id="start">
+                    When you are ready,<br/><strong>press Enter to start the game!</strong>
+                </p>
+                <dl id="credits">
+                    <dt>Raster fonts</dt> <dd>REXPaint (gumix, Josh Ge)</dd>
+                    <dt>Vector fonts</dt> <dd>Inconsolata (Raph Levien), Merriweather (Sorkin Type)</dd>
+                    <dt>Sounds</dt> <dd>Freesound (Benboncan, straget, petenice, brennanium135), Soundsnap </dd>
+                    <dt>Intro image</dt> <dd>ASCII Art Archive</dd>
+                    <dt>Language</dt> <dd>all the lovely folks in #rgrd-ot@freenode</dd>
+                </dl>
+            </section>
+
+        </div>
+
+        <div id="game">
+            <aside class="narrow">
+                <section id="log"></section>
+                <dl id="status">
+                    <div id="target"><dt>Target</dt><dd></dd></div>
+                    <div id="cannonballs"><dt>Cannonballs</dt><dd></dd></div>
+                    <div id="gold"><dt>Gold</dt><dd></dd></div>
+                    <div id="coconuts"><dt>Coconuts</dt><dd></dd></div>
+                    <div id="hp"><dt>Ship health</dt><dd></dd></div>
+                </dl>
+            </aside>
+            <main></main>
+        </div>
+    </body>
+    <script src="index.js"></script>
+</html>

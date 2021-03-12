@@ -1,0 +1,18 @@
+{
+	"include": ["src"],
+	"compilerOptions": {
+		"strict": true,
+		"outDir": "js",
+		"target": "es2019",
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noEmitOnError": true,
+		"incremental": true,
+
+		"baseUrl": ".",
+		"paths": {
+			"fastiles": ["node_modules/fastiles/js/fastiles"],
+			"engine/*": ["src/engine/*"]
+		}
+	}
+}

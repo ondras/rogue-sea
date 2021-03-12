@@ -1,0 +1,178 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Merriweather:wght@400;700&display=swap");
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: merriweather, serif;
+}
+
+#game {
+	height: 100vh;
+}
+
+main {
+	overflow: hidden;
+	height: 100%;
+	position: relative; /* tutorial anchor */
+}
+
+aside {
+	float: right;
+	width: 25%;
+	height: 100%;
+
+	display: flex;
+	flex-direction: column;
+
+	border-left: 2px solid saddlebrown;
+	overflow: hidden;
+}
+
+aside, #tutorial {
+	color: #000;
+	background-image: linear-gradient(to bottom, #C19A6B 0%, #B28B5C 100%);
+}
+
+aside.transition { transition: width 1000ms; }
+aside.narrow { width: 0; }
+
+[hidden] { display: none; }
+
+#log {
+	flex: auto;
+	overflow-y: scroll;
+	padding: 4px;
+}
+
+#status {
+	border-top: 2px solid saddlebrown;
+	flex: none;
+	margin: 0;
+	padding: 4px;
+	line-height: 1.4;
+	font-size: 1.4vw;
+}
+
+#status div { display: flex; }
+
+#status dt { font-weight: bold; }
+
+#status dd { margin-left: auto; }
+dd::after {
+	display: inline-block;
+	width: 1.5em;
+	text-align: center;
+}
+
+#cannonballs dd::after { content: " 💣"; }
+
+#coconuts dd::after { content: " 🥥"; }
+
+#gold dd { color: gold; }
+#gold dd::after { content: " 💰"; }
+
+#hp dd {
+	color: saddlebrown;
+	font-weight: bold;
+}
+
+canvas { position: relative; }
+
+#about {
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	padding: 0 8px;
+	background-color: #000;
+	color: #aaa;
+	display: flex;
+	flex-direction: column;
+	overflow: auto;
+}
+
+#about strong {
+	font-weight: normal;
+	color: #fff;
+}
+
+#about pre {
+	color: sienna;
+	font-size: 3vh;
+	font-weight: bold;
+	font-family: consolas, inconsolata, monospace;
+	align-self: center;
+	margin: 0;
+}
+#about pre .sail { color: #fff; }
+#about pre .sea { color: dodgerblue; }
+
+#about h1 {
+	color: gold;
+	align-self: center;
+}
+
+#about section {
+	margin-top: auto;
+	display: flex;
+}
+
+#about p {
+	line-height: 1.4;
+	max-width: 800px;
+	align-self: center;
+}
+
+#about #start {
+	flex: 2 1 0;
+	text-align: center;
+}
+
+#about #credits {
+	font-size: 70%;
+	flex: 1 1 0;
+}
+
+#about #credits::before {
+	display: block;
+	content: "Credits";
+	text-align: center;
+	color: #fff;
+	margin-bottom: 1em;
+}
+
+#about #credits dt {
+	color: #fff;
+}
+
+#tutorial {
+	width: 400px;
+	position: absolute;
+	padding: 0.5em;
+
+	bottom: 100px;
+	left: calc(50% - 200px);
+	line-height: 1.3;
+
+	border: 2px solid saddlebrown;
+	transition: opacity 300ms;
+}
+
+#tutorial em {
+	color: #333;
+}
+
+kbd {
+	font-family: consolas, inconsolata, monospace;
+	font-weight: bold;
+	font-style: normal;
+	background-color: #ddd;
+	border: 2px solid #333;
+	border-radius: 4px;
+	padding: 0 4px;
+}
