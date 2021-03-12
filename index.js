@@ -1010,7 +1010,7 @@ void main() {
   var BROWN_LIGHT = 179;
   var BROWN_DARK = 177;
   var BLUES = [];
-  var count = 40;
+  var count = 20;
   for (let i = 0; i < count; i++) {
     let index = 100 + i;
     let blue = 100 + Math.round(100 * (i / count));
@@ -1212,16 +1212,16 @@ void main() {
   var CANNON_RANGE = 25;
   var BASE_DURATION = 100;
   var TURN_DURATION = BASE_DURATION;
-  var FIRE_DURATION = 2 * BASE_DURATION;
+  var FIRE_DURATION = 3 * BASE_DURATION;
   var SHOT_STEP = 50;
   var MAX_CANNONBALLS = function(cannons) {
-    return cannons;
+    return cannons + 1;
   };
   var MAX_HP = function(cannons) {
-    return cannons + 2;
+    return 3 + (cannons >> 1);
   };
   var GOLD = function() {
-    return 3 + Math.floor(Math.random() * 7);
+    return 5 + Math.floor(Math.random() * 10);
   };
 
   // src/task.ts
@@ -2086,13 +2086,16 @@ void main() {
     async fly(position, orientation) {
       let target = null;
       this.position = [position[0], position[1]];
-      let a = new Shot(this.position);
+      let a;
+      if (this.inPort(position)) {
+        a = new Shot(this.position);
+      }
       let d2 = DIRS[orientation];
       while (true) {
         this.position[0] += d2[0];
         this.position[1] += d2[1];
         this.renderer.dirty(this);
-        a.position(this.position);
+        a && a.position(this.position);
         if (this.inPort(this.position)) {
           await sleep(SHOT_STEP);
         }
@@ -2108,18 +2111,20 @@ void main() {
           break;
         }
       }
-      let sfx2 = "";
-      if (target) {
-        if (target instanceof ship_default) {
-          sfx2 = "hit";
+      if (a) {
+        let sfx2 = "";
+        if (target) {
+          if (target instanceof ship_default) {
+            sfx2 = "hit";
+          }
+          if (target instanceof island_default) {
+            sfx2 = "crash";
+          }
+        } else {
+          sfx2 = "splash";
         }
-        if (target instanceof island_default) {
-          sfx2 = "crash";
-        }
-      } else {
-        sfx2 = "splash";
+        a.end(sfx2, this.position);
       }
-      a.end(sfx2, this.position);
       this.renderer.remove(this);
       return target;
     }

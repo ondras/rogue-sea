@@ -20,14 +20,15 @@ export default class Shot implements Renderable {
 		let target = null;
 		this.position = [position[0], position[1]];
 
-		let a = new audio.Shot(this.position);
+		let a;
+		if (this.inPort(position)) { a = new audio.Shot(this.position); }
 
 		let d = DIRS[orientation];
 		while (true) {
 			this.position[0] += d[0];
 			this.position[1] += d[1];
 			this.renderer.dirty(this);
-			a.position(this.position);
+			a && a.position(this.position);
 
 			if (this.inPort(this.position)) { // invisible shots are fast
 				await sleep(rules.SHOT_STEP);
@@ -45,18 +46,18 @@ export default class Shot implements Renderable {
 			if (dist >= rules.CANNON_RANGE) { break; }
 		}
 
-
-		let sfx = "";
-		if (target) {
-			if (target instanceof Ship) { sfx = "hit"; }
-			if (target instanceof Island) { sfx = "crash"; }
-		} else {
-			sfx = "splash";
+		if (a) {
+			let sfx = "";
+			if (target) {
+				if (target instanceof Ship) { sfx = "hit"; }
+				if (target instanceof Island) { sfx = "crash"; }
+			} else {
+				sfx = "splash";
+			}
+			a.end(sfx, this.position);
 		}
-		a.end(sfx, this.position);
 
 		this.renderer.remove(this);
-
 		return target;
 	}
 
