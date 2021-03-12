@@ -71,7 +71,10 @@ dd::after {
 
 #coconuts dd::after { content: " 🥥"; }
 
-#gold dd { color: gold; }
+#gold dd, #log .gold, #tutorial .gold {
+	color: gold;
+	text-shadow: 0 1px 1px #000;
+}
 #gold dd::after { content: " 💰"; }
 
 #hp dd {

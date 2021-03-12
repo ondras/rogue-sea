@@ -9,13 +9,13 @@ import Sea from "./sea.js";
 import * as keyboard from "./keyboard.js";
 import * as shipyard from "./shipyard.js";
 import * as log from "./log.js";
+import { COCONUTS } from "./rules.js";
 
 
 type Point = [number, number];
 
 export type Difficulty = 0 | 1 | 2 | 3;
 
-const COCONUTS = 10;
 
 export default class Level {
 	protected player: Player;
@@ -120,7 +120,7 @@ export default class Level {
 			break;
 
 			case 1:
-				await this.showTutorial(`From now on, ye be on yer own! Start with this here small ship an' collect ${COCONUTS} coconuts before movin' to a larger sea.`);
+				await this.showTutorial(`From now on, ye be on yer own! Start with this here small ship an' collect ${COCONUTS} coconuts before movin' to a bigger sea.`);
 				await this.targetFound();
 				await this.showTutorial(`A coconut island be always shown as yer target to aid with navigation. Good luck, matey!`);
 			break;
@@ -132,7 +132,7 @@ export default class Level {
 
 			case 3:
 				await this.targetFound();
-				await this.showTutorial(`This here be the largest boat that there sailed these seas. Show yer piratey skills an' try to loot as much gold as possible. The game will end once ye reach ${COCONUTS} coconuts.`);
+				await this.showTutorial(`This here be the biggest boat that there sailed these seas. Show yer piratey skills an' try to loot as much <span class='gold'>gold</span> as possible. The game will end once ye reach ${COCONUTS} coconuts.`);
 			break;
 		}
 
@@ -144,7 +144,7 @@ export default class Level {
 		const endNote = "Press <kbd>Enter</kbd> to reload the game and try again";
 
 		if (!player.ship.alive) {
-			return this.showTutorial(`<strong>Scurvy! Yer ship been sent to Davy Jones' locker!</strong>\n\nYe managed to loot ${player.ship.gold} gold in yer pirate career.`, endNote);
+			return this.showTutorial(`<strong>Scurvy! Yer ship been sent to Davy Jones' locker!</strong>\n\nYe managed to loot <span class='gold'>${player.ship.gold} gold</span> in yer pirate career.`, endNote);
 		}
 
 		switch (difficulty) {
@@ -153,7 +153,7 @@ export default class Level {
 			break;
 
 			case 1:
-				await this.showTutorial("Ye've proven yerself in this here small sea. Time to go lookin' fer a larger one&hellip;");
+				await this.showTutorial("Ye've proven yerself in this here small sea. Time to go lookin' fer a bigger one&hellip;");
 			break;
 
 			case 2:
@@ -161,7 +161,7 @@ export default class Level {
 			break;
 
 			case 3:
-				await this.showTutorial(`<strong>Congratulations, matey!</strong>\n\nYe survived and completed the game, lootin' ${player.ship.gold} gold from other ships! Good luck in yer feature voyages.`, endNote);
+				await this.showTutorial(`<strong>Congratulations, matey!</strong>\n\nYe survived and completed the game, lootin' <span class='gold'>${player.ship.gold} gold</span> from other ships! Good luck in yer feature voyages.`, endNote);
 			break;
 		}
 	}
@@ -186,7 +186,7 @@ export default class Level {
 
 			case "coconut": {
 				await this.showTutorial(`Cannons be loaded! Ye can reload every time ye arrive to a cannonball island, but remember that bigger ships can 'old more cannonballs.`);
-				await this.showTutorial(`Fightin' other ships be a life of a true pirate! Ye can loot cannonbals or even gold from a sunken ship. Just take care ye do not end at Davy Jones' Locker!`);
+				await this.showTutorial(`Fightin' other ships be a life of a true pirate! Ye can loot cannonbals or even <span class='gold'>gold</span> from a sunken ship. Just take care ye do not end at Davy Jones' Locker!`);
 				let island = sea.islands.filter(i => i.type == "coconut").random();
 				player.target = island;
 				await this.showTutorial(`Ye can always make a fortune by hoardin' coconuts. Try goin' fer one to <strong>${island.name}</strong> now.`);
@@ -253,7 +253,7 @@ export function populate(sea: Sea, difficulty: Difficulty) {
 
 	// other ships
 	islands = sea.islands.filter(i => i != pisland).shuffle();
-	let otherShips = 4 + difficulty;
+	let otherShips = 3 + difficulty;
 	for (let i=0;i<otherShips;i++) {
 		let sizes = [0, 1];
 		if (difficulty > 0) { sizes.push(2); }
@@ -263,9 +263,7 @@ export function populate(sea: Sea, difficulty: Difficulty) {
 		sea.positionNear(ship, islands.shift()!.position);
 		sea.add(ship);
 
-		let personality: Personality = "merchant";
-		if ((difficulty  > 1) && (i % 2 == 0)) { personality = "corsair"; }
-		if ((difficulty == 1) && (i % 3 == 0)) { personality = "corsair"; }
+		let personality: Personality = (i < difficulty ? "corsair" : "merchant");
 		ship.captain = new Captain(ship, personality);
 	}
 }

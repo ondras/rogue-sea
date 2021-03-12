@@ -124,7 +124,7 @@ export default class Player extends Captain {
 
 	protected lootGold(ship: Ship) {
 		this.ship.gold += ship.gold;
-		log.text("Ye salvage some shiny gold from the wreck.");
+		log.text(`Ye salvage <span class='gold'>${ship.gold} gold</span> from the wreck.`);
 	}
 
 	targetFound() {

@@ -122,7 +122,7 @@ export default class Sea extends World {
 	}
 
 	createAnotherShip(ship: Ship) {
-		let size = (ship.cannons.length/2-1);
+		let size = [0, 1, 2].random();
 		let newShip = shipyard.create({size, pc:false});
 		if (ship.captain) { newShip.captain = new Captain(newShip, ship.captain.personality); }
 

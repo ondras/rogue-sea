@@ -925,6 +925,11 @@ void main() {
   var BUFFERS = {};
   var ctx = new AudioContext();
   var renderer;
+  function inPort(point2) {
+    const lt = renderer.leftTop;
+    const rb = renderer.rightBottom;
+    return point2[0] >= lt[0] && point2[0] <= rb[0] && point2[1] >= lt[1] && point2[1] <= rb[1];
+  }
   function createPanner() {
     let panner = ctx.createPanner();
     panner.rolloffFactor = 0.1;
@@ -941,6 +946,9 @@ void main() {
     new Audio(nameToPath("tada")).play();
   }
   function sfx(type, position) {
+    if (!inPort(position)) {
+      return;
+    }
     let source = ctx.createBufferSource();
     let name = NAMES[type].random();
     source.buffer = BUFFERS[name];
@@ -1214,6 +1222,7 @@ void main() {
   var TURN_DURATION = BASE_DURATION;
   var FIRE_DURATION = 3 * BASE_DURATION;
   var SHOT_STEP = 50;
+  var COCONUTS = 5;
   var MAX_CANNONBALLS = function(cannons) {
     return cannons + 1;
   };
@@ -1894,7 +1903,7 @@ void main() {
     }
     lootGold(ship) {
       this.ship.gold += ship.gold;
-      text("Ye salvage some shiny gold from the wreck.");
+      text(`Ye salvage <span class='gold'>${ship.gold} gold</span> from the wreck.`);
     }
     targetFound() {
       this.status.update();
@@ -2086,17 +2095,14 @@ void main() {
     async fly(position, orientation) {
       let target = null;
       this.position = [position[0], position[1]];
-      let a;
-      if (this.inPort(position)) {
-        a = new Shot(this.position);
-      }
+      let a = new Shot(this.position);
       let d2 = DIRS[orientation];
       while (true) {
         this.position[0] += d2[0];
         this.position[1] += d2[1];
         this.renderer.dirty(this);
-        a && a.position(this.position);
-        if (this.inPort(this.position)) {
+        a.position(this.position);
+        if (inPort(this.position)) {
           await sleep(SHOT_STEP);
         }
         let t = this.sea.query(this.position);
@@ -2111,20 +2117,18 @@ void main() {
           break;
         }
       }
-      if (a) {
-        let sfx2 = "";
-        if (target) {
-          if (target instanceof ship_default) {
-            sfx2 = "hit";
-          }
-          if (target instanceof island_default) {
-            sfx2 = "crash";
-          }
-        } else {
-          sfx2 = "splash";
+      let sfx2 = "";
+      if (target) {
+        if (target instanceof ship_default) {
+          sfx2 = "hit";
         }
-        a.end(sfx2, this.position);
+        if (target instanceof island_default) {
+          sfx2 = "crash";
+        }
+      } else {
+        sfx2 = "splash";
       }
+      a.end(sfx2, this.position);
       this.renderer.remove(this);
       return target;
     }
@@ -2153,12 +2157,6 @@ void main() {
         bg: water.bg,
         ch: "*".charCodeAt(0)
       };
-    }
-    inPort(point2) {
-      const {renderer: renderer2} = this;
-      const lt = renderer2.leftTop;
-      const rb = renderer2.rightBottom;
-      return point2[0] >= lt[0] && point2[0] <= rb[0] && point2[1] >= lt[1] && point2[1] <= rb[1];
     }
   };
   var shot_default = Shot2;
@@ -2607,7 +2605,7 @@ ssswsss
       return shot;
     }
     createAnotherShip(ship) {
-      let size = ship.cannons.length / 2 - 1;
+      let size = [0, 1, 2].random();
       let newShip = create({size, pc: false});
       if (ship.captain) {
         newShip.captain = new captain_default(newShip, ship.captain.personality);
@@ -2619,7 +2617,6 @@ ssswsss
   var sea_default = Sea;
 
   // src/level.ts
-  var COCONUTS = 10;
   var Level = class {
     constructor(difficulty, gold, port) {
       this.difficulty = difficulty;
@@ -2705,7 +2702,7 @@ Let's get to learnin' the sailin' then!`);
           await this.targetFound();
           break;
         case 1:
-          await this.showTutorial(`From now on, ye be on yer own! Start with this here small ship an' collect ${COCONUTS} coconuts before movin' to a larger sea.`);
+          await this.showTutorial(`From now on, ye be on yer own! Start with this here small ship an' collect ${COCONUTS} coconuts before movin' to a bigger sea.`);
           await this.targetFound();
           await this.showTutorial(`A coconut island be always shown as yer target to aid with navigation. Good luck, matey!`);
           break;
@@ -2715,7 +2712,7 @@ Let's get to learnin' the sailin' then!`);
           break;
         case 3:
           await this.targetFound();
-          await this.showTutorial(`This here be the largest boat that there sailed these seas. Show yer piratey skills an' try to loot as much gold as possible. The game will end once ye reach ${COCONUTS} coconuts.`);
+          await this.showTutorial(`This here be the biggest boat that there sailed these seas. Show yer piratey skills an' try to loot as much <span class='gold'>gold</span> as possible. The game will end once ye reach ${COCONUTS} coconuts.`);
           break;
       }
     }
@@ -2725,14 +2722,14 @@ Let's get to learnin' the sailin' then!`);
       if (!player.ship.alive) {
         return this.showTutorial(`<strong>Scurvy! Yer ship been sent to Davy Jones' locker!</strong>
 
-Ye managed to loot ${player.ship.gold} gold in yer pirate career.`, endNote);
+Ye managed to loot <span class='gold'>${player.ship.gold} gold</span> in yer pirate career.`, endNote);
       }
       switch (difficulty) {
         case 0:
           await this.showTutorial("Nice work, yer training is complete. Ye can start plain' the regular game now.");
           break;
         case 1:
-          await this.showTutorial("Ye've proven yerself in this here small sea. Time to go lookin' fer a larger one&hellip;");
+          await this.showTutorial("Ye've proven yerself in this here small sea. Time to go lookin' fer a bigger one&hellip;");
           break;
         case 2:
           await this.showTutorial("All coconuts collected! Ye be truly gettin' into the pirate's way o' life.");
@@ -2740,7 +2737,7 @@ Ye managed to loot ${player.ship.gold} gold in yer pirate career.`, endNote);
         case 3:
           await this.showTutorial(`<strong>Congratulations, matey!</strong>
 
-Ye survived and completed the game, lootin' ${player.ship.gold} gold from other ships! Good luck in yer feature voyages.`, endNote);
+Ye survived and completed the game, lootin' <span class='gold'>${player.ship.gold} gold</span> from other ships! Good luck in yer feature voyages.`, endNote);
           break;
       }
     }
@@ -2770,7 +2767,7 @@ Speakin' of cannons, let's check them out now, shall we?`);
         case "coconut":
           {
             await this.showTutorial(`Cannons be loaded! Ye can reload every time ye arrive to a cannonball island, but remember that bigger ships can 'old more cannonballs.`);
-            await this.showTutorial(`Fightin' other ships be a life of a true pirate! Ye can loot cannonbals or even gold from a sunken ship. Just take care ye do not end at Davy Jones' Locker!`);
+            await this.showTutorial(`Fightin' other ships be a life of a true pirate! Ye can loot cannonbals or even <span class='gold'>gold</span> from a sunken ship. Just take care ye do not end at Davy Jones' Locker!`);
             let island = sea.islands.filter((i) => i.type == "coconut").random();
             player.target = island;
             await this.showTutorial(`Ye can always make a fortune by hoardin' coconuts. Try goin' fer one to <strong>${island.name}</strong> now.`);
@@ -2826,7 +2823,7 @@ Speakin' of cannons, let's check them out now, shall we?`);
     sea.positionNear(pship, pisland.position);
     sea.add(pship);
     islands = sea.islands.filter((i) => i != pisland).shuffle();
-    let otherShips = 4 + difficulty;
+    let otherShips = 3 + difficulty;
     for (let i = 0; i < otherShips; i++) {
       let sizes = [0, 1];
       if (difficulty > 0) {
@@ -2836,13 +2833,7 @@ Speakin' of cannons, let's check them out now, shall we?`);
       let ship = create({size: size2, pc: false});
       sea.positionNear(ship, islands.shift().position);
       sea.add(ship);
-      let personality = "merchant";
-      if (difficulty > 1 && i % 2 == 0) {
-        personality = "corsair";
-      }
-      if (difficulty == 1 && i % 3 == 0) {
-        personality = "corsair";
-      }
+      let personality = i < difficulty ? "corsair" : "merchant";
       ship.captain = new captain_default(ship, personality);
     }
   }

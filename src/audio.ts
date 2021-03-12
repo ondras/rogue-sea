@@ -16,6 +16,12 @@ let BUFFERS: Record<string, AudioBuffer> = {};
 const ctx = new AudioContext();
 let renderer: Renderer;
 
+export function inPort(point: Point) {
+	const lt = renderer.leftTop;
+	const rb = renderer.rightBottom;
+	return (point[0] >= lt[0] && point[0] <= rb[0] && point[1] >= lt[1] && point[1] <= rb[1]);
+}
+
 function createPanner() {
 	let panner = ctx.createPanner();
 	panner.rolloffFactor = 0.1;
@@ -34,6 +40,8 @@ export function tada() {
 }
 
 export function sfx(type: string, position: Point) {
+	if (!inPort(position)) { return; }
+
 	let source = ctx.createBufferSource();
 
 	let name = NAMES[type].random();
