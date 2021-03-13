@@ -103,14 +103,14 @@ export default class Level {
 				await this.showTutorial(`This is yer ship, the ${player.ship.name}. Be not she nice?\n\nLet's get to learnin' the sailin' then!`);
 
 				log.newline();
-				log.text("Movement: <kbd>&larr;</kbd> <kbd>&uarr;</kbd> <kbd>&rarr;</kbd> / <kbd>A</kbd> <kbd>W</kbd> <kbd>D</kbd>");
-				await this.showTutorial(`Use <kbd>&larr;</kbd> <kbd>&uarr;</kbd> <kbd>&rarr;</kbd> or <kbd>A</kbd> <kbd>W</kbd> <kbd>D</kbd> keys to move yer ship around.`);
+				log.text("Movement: <kbd>&larr;</kbd> <kbd>&uarr;</kbd> <kbd>&rarr;</kbd> / <kbd>A</kbd> <kbd>W</kbd> <kbd>D</kbd> / <kbd>H</kbd> <kbd>K</kbd> <kbd>L</kbd>");
+				await this.showTutorial(`Use <kbd>&larr;</kbd> <kbd>&uarr;</kbd> <kbd>&rarr;</kbd> or <kbd>A</kbd> <kbd>W</kbd> <kbd>D</kbd> keys to move yer ship around.<br/>Ye can use <kbd>H</kbd> <kbd>K</kbd> <kbd>L</kbd> keys as well, if ye be that kind of pirate.`);
 
 				await this.showTutorial(`It be not possible to go backwards! So take jolly care not to get stuck. If ye get stuck, ye be cursed!`);
 
 				log.newline();
 				log.text("Wait: <kbd>Space</kbd> / <kbd>Enter</kbd> / <kbd>.</kbd>");
-				await this.showTutorial(`Skippin' a turn might be useful. Press <kbd>Space</kbd> or <kbd>.</kbd> to wait (skip a turn).`);
+				await this.showTutorial(`Skippin' a turn might be useful. Ye can wait by hittin' <kbd>Space</kbd> or <kbd>Enter</kbd> or <kbd>.</kbd> key.`);
 
 				log.newline();
 				log.text("Zoom: <kbd>&plus;</kbd> / <kbd>&minus;</kbd>");
@@ -254,16 +254,17 @@ export function populate(sea: Sea, difficulty: Difficulty) {
 	// other ships
 	islands = sea.islands.filter(i => i != pisland).shuffle();
 	let otherShips = 3 + difficulty;
+	let corsairCount = difficulty;
 	for (let i=0;i<otherShips;i++) {
 		let sizes = [0, 1];
-		if (difficulty > 0) { sizes.push(2); }
+		if (difficulty > 1) { sizes.push(2); }
 		let size = sizes.random();
 
 		let ship = shipyard.create({size, pc: false});
 		sea.positionNear(ship, islands.shift()!.position);
 		sea.add(ship);
 
-		let personality: Personality = (i < difficulty ? "corsair" : "merchant");
+		let personality: Personality = (i < corsairCount ? "corsair" : "merchant");
 		ship.captain = new Captain(ship, personality);
 	}
 }

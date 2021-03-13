@@ -47,12 +47,15 @@ export default class Player extends Captain {
 		switch (true) {
 			case (event.key == "ArrowUp"):
 			case (event.code == "KeyW"):
+			case (event.code == "KeyK"):
 				return this.tryForward(sea); break;
 			case (event.key == "ArrowLeft"):
 			case (event.code == "KeyA"):
+			case (event.code == "KeyH"):
 				return this.tryTurn(-1, sea); break;
 			case (event.key == "ArrowRight"):
 			case (event.code == "KeyD"):
+			case (event.code == "KeyL"):
 				return this.tryTurn(+1, sea); break;
 			case [" ", ".", "Enter"].includes(event.key): return rules.BASE_DURATION; break;
 

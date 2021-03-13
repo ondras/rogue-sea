@@ -30,7 +30,10 @@ export default class Captain implements Actor<Sea> {
 
 		// nothing can be completed :-(
 
-		if (this.tasks.length >= 3) { return rules.BASE_DURATION; } // pointless to add more
+		if (this.tasks.length >= 3) { // pointless to add more
+			this.tasks.shift(); // remove the oldest one
+			return rules.BASE_DURATION;
+		}
 
 		// add another and re-try
 		switch (this.personality) {
