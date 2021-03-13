@@ -48,4 +48,4 @@ async function init() {
 }
 
 init();
-test.runAndLog();
+// test.runAndLog();

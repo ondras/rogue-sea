@@ -18,52 +18,6 @@
     return (this % n + n) % n;
   };
 
-  // src/engine/test.ts
-  var tests = [];
-  var stats = {
-    passed: 0,
-    failed: 0,
-    assertions: 0
-  };
-  function register(test5) {
-    tests.push(test5);
-  }
-  function assert(x, msg) {
-    stats.assertions++;
-    if (x) {
-      return;
-    }
-    throw new Error(`Assertion failed: ${msg}`);
-  }
-  function assertEquals(x, y, msg) {
-    let cx = x instanceof Array ? x.join(",") : x;
-    let cy = y instanceof Array ? y.join(",") : y;
-    return assert(cx == cy, `${msg} (${cx} should equal ${cy})`);
-  }
-  async function run() {
-    let todo = tests.slice();
-    stats.passed = 0;
-    stats.failed = 0;
-    stats.assertions = 0;
-    while (todo.length) {
-      try {
-        let result = todo.shift()();
-        if (result && result.then) {
-          await result;
-        }
-        stats.passed++;
-      } catch (e) {
-        stats.failed++;
-        console.warn(e);
-      }
-    }
-    return stats;
-  }
-  async function runAndLog() {
-    let r2 = await run();
-    console.log(r2);
-  }
-
   // node_modules/fastiles/js/utils.js
   var QUAD = [
     0,
@@ -710,6 +664,29 @@ void main() {
   };
   var renderer_default = Renderer;
 
+  // src/engine/test.ts
+  var tests = [];
+  var stats = {
+    passed: 0,
+    failed: 0,
+    assertions: 0
+  };
+  function register(test4) {
+    tests.push(test4);
+  }
+  function assert(x, msg) {
+    stats.assertions++;
+    if (x) {
+      return;
+    }
+    throw new Error(`Assertion failed: ${msg}`);
+  }
+  function assertEquals(x, y, msg) {
+    let cx = x instanceof Array ? x.join(",") : x;
+    let cy = y instanceof Array ? y.join(",") : y;
+    return assert(cx == cy, `${msg} (${cx} should equal ${cy})`);
+  }
+
   // src/engine/utils.ts
   var DIRS = [
     [-1, -1],
@@ -1268,11 +1245,9 @@ void main() {
       let dirs = [-1, 0, 1];
       if (this.timesStuck > 2) {
         dirs.push(-2, 2);
-        console.log("cheat 1", ship);
       }
       if (this.timesStuck > 3) {
         dirs.push(4);
-        console.log("cheat 2", ship);
       }
       let candidates = dirs.map((diff) => {
         let orientation = (ship.orientation + diff).mod(8);
@@ -2903,5 +2878,4 @@ Speakin' of cannons, let's check them out now, shall we?`);
     location.reload();
   }
   init4();
-  runAndLog();
 })();

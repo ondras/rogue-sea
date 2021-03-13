@@ -42,8 +42,8 @@ export class MoveToPoint extends Task {
 		const { ship, point, distance } = this;
 
 		let dirs = [-1, 0, 1];
-		if (this.timesStuck > 2) { dirs.push(-2, 2); console.log("cheat 1", ship); } // cheating!
-		if (this.timesStuck > 3) { dirs.push(4); console.log("cheat 2", ship); } // more cheating!
+		if (this.timesStuck > 2) { dirs.push(-2, 2); } // cheating!
+		if (this.timesStuck > 3) { dirs.push(4); } // more cheating!
 
 		let candidates = dirs.map(diff => {
 			let orientation = (ship.orientation + diff).mod(8);
