@@ -177,6 +177,8 @@ export default class Level {
 
 			case "cannonballs": {
 				await this.showTutorial(`Now she be lookin' like new! Pay attention to islands where ye can repair yer ship. Repaired ships can take more poundin' by enemy cannons. \n\nSpeakin' of cannons, let's check them out now, shall we?`);
+				log.newline();
+				log.text("Cannons: <kbd>number</kbd> of a ship's cannon");
 				await this.showTutorial(`Yer ship has cannons represented by a number. Bigger ships 've more cannons. Ye can shoot those by pressin' a number key, but it won't work without cannonballs!`);
 				let island = sea.islands.filter(i => i.type == "cannonballs").random();
 				player.target = island;
