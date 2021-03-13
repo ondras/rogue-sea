@@ -16,7 +16,6 @@ type Point = [number, number];
 
 export type Difficulty = 0 | 1 | 2 | 3;
 
-
 export default class Level {
 	protected player: Player;
 	protected sea: Sea;
@@ -113,8 +112,8 @@ export default class Level {
 				await this.showTutorial(`Skippin' a turn might be useful. Ye can wait by hittin' <kbd>Space</kbd> or <kbd>Enter</kbd> or <kbd>.</kbd> key.`);
 
 				log.newline();
-				log.text("Zoom: <kbd>&plus;</kbd> / <kbd>&minus;</kbd>");
-				await this.showTutorial(`Finally, ye can change the map size usin' the <kbd>&plus;</kbd> and <kbd>&minus;</kbd> keys.`);
+				log.text("Zoom: <kbd>&minus;</kbd> / <kbd>&plus;</kbd>");
+				await this.showTutorial(`Finally, ye can change the map size usin' the <kbd>&minus;</kbd> and <kbd>&plus;</kbd> keys.`);
 
 				await this.targetFound(); // schedule next target
 			break;

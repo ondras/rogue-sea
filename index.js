@@ -1222,7 +1222,7 @@ void main() {
   var TURN_DURATION = BASE_DURATION;
   var FIRE_DURATION = 3 * BASE_DURATION;
   var SHOT_STEP = 50;
-  var COCONUTS = 5;
+  var COCONUTS = 4;
   var MAX_CANNONBALLS = function(cannons) {
     return cannons + 1;
   };
@@ -2701,8 +2701,8 @@ Let's get to learnin' the sailin' then!`);
           text("Wait: <kbd>Space</kbd> / <kbd>Enter</kbd> / <kbd>.</kbd>");
           await this.showTutorial(`Skippin' a turn might be useful. Ye can wait by hittin' <kbd>Space</kbd> or <kbd>Enter</kbd> or <kbd>.</kbd> key.`);
           newline();
-          text("Zoom: <kbd>&plus;</kbd> / <kbd>&minus;</kbd>");
-          await this.showTutorial(`Finally, ye can change the map size usin' the <kbd>&plus;</kbd> and <kbd>&minus;</kbd> keys.`);
+          text("Zoom: <kbd>&minus;</kbd> / <kbd>&plus;</kbd>");
+          await this.showTutorial(`Finally, ye can change the map size usin' the <kbd>&minus;</kbd> and <kbd>&plus;</kbd> keys.`);
           await this.targetFound();
           break;
         case 1:
@@ -2895,7 +2895,7 @@ Speakin' of cannons, let's check them out now, shall we?`);
       let level = new level_default(i, gold, port);
       let ship = await level.play();
       if (ship.alive) {
-        gold += ship.gold;
+        gold = ship.gold;
       } else {
         break;
       }

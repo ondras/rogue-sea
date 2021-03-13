@@ -34,12 +34,11 @@ async function init() {
 
 	let gold = 0;
 	for (let i=0;i<=3;i++) { // play levels
-//		if (i) i=3;
 		let level = new Level(i as Difficulty, gold, port);
 		let ship = await level.play();
 
 		if (ship.alive) {
-			gold += ship.gold;
+			gold = ship.gold;
 		} else {
 			break;
 		}
