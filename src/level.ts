@@ -185,7 +185,7 @@ export default class Level {
 			} break;
 
 			case "coconut": {
-				await this.showTutorial(`Cannons be loaded! Ye can reload every time ye arrive to a cannonball island, but remember that bigger ships can 'old more cannonballs.`);
+				await this.showTutorial(`Cannons be loaded, arrr! Ye can reload every time ye arrive to a cannonball island, but remember that bigger ships can 'old more cannonballs.`);
 				await this.showTutorial(`Fightin' other ships be a life of a true pirate! Ye can loot cannonbals or even <span class='gold'>gold</span> from a sunken ship. Just take care ye do not end at Davy Jones' Locker!`);
 				let island = sea.islands.filter(i => i.type == "coconut").random();
 				player.target = island;

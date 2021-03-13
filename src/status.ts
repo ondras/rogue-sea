@@ -33,7 +33,7 @@ export default class Status {
 	}
 
 	update() {
-		this._dom["cannonballs"].innerHTML = String(this.ship.cannonballs);
+		this._dom["cannonballs"].innerHTML = `${this.ship.cannonballs} / ${this.ship.maxCannonballs}`;
 		this._dom["hp"].innerHTML = new Array(this.ship.hp).fill("#").join("");
 		this._dom["gold"].innerHTML = String(this.ship.gold);
 		this._dom["coconuts"].innerHTML = String(this.ship.coconuts);

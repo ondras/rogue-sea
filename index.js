@@ -1783,7 +1783,7 @@ void main() {
       this.update();
     }
     update() {
-      this._dom["cannonballs"].innerHTML = String(this.ship.cannonballs);
+      this._dom["cannonballs"].innerHTML = `${this.ship.cannonballs} / ${this.ship.maxCannonballs}`;
       this._dom["hp"].innerHTML = new Array(this.ship.hp).fill("#").join("");
       this._dom["gold"].innerHTML = String(this.ship.gold);
       this._dom["coconuts"].innerHTML = String(this.ship.coconuts);
@@ -2770,7 +2770,7 @@ Speakin' of cannons, let's check them out now, shall we?`);
           break;
         case "coconut":
           {
-            await this.showTutorial(`Cannons be loaded! Ye can reload every time ye arrive to a cannonball island, but remember that bigger ships can 'old more cannonballs.`);
+            await this.showTutorial(`Cannons be loaded, arrr! Ye can reload every time ye arrive to a cannonball island, but remember that bigger ships can 'old more cannonballs.`);
             await this.showTutorial(`Fightin' other ships be a life of a true pirate! Ye can loot cannonbals or even <span class='gold'>gold</span> from a sunken ship. Just take care ye do not end at Davy Jones' Locker!`);
             let island = sea.islands.filter((i) => i.type == "coconut").random();
             player.target = island;
