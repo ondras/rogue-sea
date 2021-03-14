@@ -21,8 +21,8 @@ function adjustByDPR(size: number) {
 	if (!(adjusted in FONTS)) {
 		const source = FONTS[size];
 		let canvas = document.createElement("canvas");
-		canvas.width = source.width * DPR;
-		canvas.height = source.height * DPR;
+		canvas.width = (source.width / size) * adjusted;
+		canvas.height = (source.height / size) * adjusted;
 
 		let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 		ctx.imageSmoothingEnabled = false;

@@ -766,8 +766,8 @@ void main() {
     if (!(adjusted in FONTS)) {
       const source = FONTS[size];
       let canvas = document.createElement("canvas");
-      canvas.width = source.width * DPR;
-      canvas.height = source.height * DPR;
+      canvas.width = source.width / size * adjusted;
+      canvas.height = source.height / size * adjusted;
       let ctx2 = canvas.getContext("2d");
       ctx2.imageSmoothingEnabled = false;
       ctx2.drawImage(source, 0, 0, canvas.width, canvas.height);
