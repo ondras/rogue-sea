@@ -2589,8 +2589,8 @@ ssswsss
       if (ship.captain) {
         newShip.captain = new captain_default(newShip, ship.captain.personality);
       }
-      this.positionNear(ship, this.islands.random().position);
-      this.add(ship);
+      this.positionNear(newShip, this.islands.random().position);
+      this.add(newShip);
     }
   };
   var sea_default = Sea;

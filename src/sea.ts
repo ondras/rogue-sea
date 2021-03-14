@@ -126,8 +126,8 @@ export default class Sea extends World {
 		let newShip = shipyard.create({size, pc:false});
 		if (ship.captain) { newShip.captain = new Captain(newShip, ship.captain.personality); }
 
-		this.positionNear(ship, this.islands.random().position);
-		this.add(ship);
+		this.positionNear(newShip, this.islands.random().position);
+		this.add(newShip);
 	}
 }
 
